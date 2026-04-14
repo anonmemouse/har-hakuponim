@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>🏔️ הר הקופונים</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <!-- HERO -->
+  <div class="glass hero">
+    <div>
+      <h1 class="title">🏔️ הר הקופונים</h1>
+      <p class="sub">גרור קובץ SMS backup — HTML / XML / CSV — ומצא את כל השוברים, קופונים, כרטיסי מתנה</p>
+    </div>
+    <div class="topbar">
+      <input type="file" id="fileInput" accept=".html,.xml,.csv">
+      <button class="btn primary" id="loadBtn">📁 טען קובץ</button>
+      <button class="btn ghost" id="exportBtn" style="display:none">⬇ ייצוא CSV</button>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div id="progressWrap" class="glass" style="display:none;padding:20px;margin-bottom:16px;">
+    <div class="progress-track"><div id="progressFill" class="progress-fill" style="width:0%"></div></div>
+    <p id="progressText" class="hint" style="text-align:center;margin-top:8px">מעבד...</p>
+  </div>
+
+  <!-- STATS -->
+  <div id="statsGrid" class="stats-grid" style="display:none"></div>
+
+  <!-- CHARTS -->
+  <div id="chartsSection" class="glass" style="display:none;padding:24px;margin-bottom:16px;">
+    <div class="toolbar">
+      <h2 class="section-title">📊 גרפים עתידניים</h2>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <select id="chartType" class="glass-select">
+          <option value="bar">📊 עמודות</option>
+          <option value="doughnut">🍩 דונאט</option>
+          <option value="radar">🕸 רדאר</option>
+          <option value="polarArea">🎯 קוטבי</option>
+        </select>
+        <select id="chartData" class="glass-select">
+          <option value="vendor">לפי ספק</option>
+          <option value="priority">לפי עדיפות</option>
+          <option value="status">לפי סטטוס</option>
+        </select>
+      </div>
+    </div>
+    <div style="height:300px;"><canvas id="mainChart"></canvas></div>
+  </div>
+
+  <!-- FILTERS -->
+  <div id="filtersSection" class="glass" style="display:none;padding:16px;margin-bottom:16px;">
+    <div class="controls">
+      <input id="searchInput" class="search-input" placeholder="🔍 חיפוש חופשי...">
+      <select id="priorityFilter" class="glass-select"><option value="">כל העדיפויות</option><option value="HIGH">🔴 גבוהה</option><option value="MEDIUM">🔵 בינונית</option><option value="LOW">⚪ נמוכה</option></select>
+      <select id="statusFilter" class="glass-select"><option value="">כל הסטטוסים</option><option value="new">✅ חדש</option><option value="used">🔵 נוצל</option><option value="expired">❌ פג תוקף</option><option value="unknown">❓ לא ידוע</option></select>
+      <select id="vendorFilter" class="glass-select"><option value="">כל הספקים</option></select>
+      <button class="btn ghost" id="resetBtn">↺ איפוס</button>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div id="tableSection" class="glass" style="display:none;padding:24px;">
+    <div class="toolbar" style="margin-bottom:16px;">
+      <h2 class="section-title">📋 קודי שובר <span id="resultsCount" class="hint"></span></h2>
+      <div style="display:flex;gap:8px;">
+        <button class="btn ghost" id="toggleDeletedBtn" style="display:none">👁 הצג מחוקים</button>
+      </div>
+    </div>
+    <div style="overflow-x:auto;">
+      <table id="voucherTable">
+        <thead><tr>
+          <th class="no-sort">פעולה</th>
+          <th data-sort="priority">עדיפות</th>
+          <th data-sort="date">תאריך</th>
+          <th data-sort="sender">שולח</th>
+          <th data-sort="vendor">ספק</th>
+          <th data-sort="amount">סכום</th>
+          <th data-sort="expiry">תוקף</th>
+          <th class="no-sort">קוד שובר</th>
+          <th class="no-sort">הודעה</th>
+          <th data-sort="status">סטטוס</th>
+        </tr></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- UNDO BAR -->
+<div id="undoBar" style="display:none;position:fixed;bottom:24px;left:24px;padding:16px 20px;border-radius:16px;background:rgba(15,23,42,0.95);border:1px solid rgba(139,92,246,0.4);box-shadow:0 12px 40px rgba(0,0,0,0.5);display:none;align-items:center;gap:12px;z-index:999;">
+  <span id="undoText" style="color:#e2e8f0"></span>
+  <button class="btn primary" id="undoActionBtn" style="padding:6px 14px;font-size:13px;">↩ בטל</button>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
