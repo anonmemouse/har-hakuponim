@@ -1,0 +1,22 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><title>Icon Generator</title></head><body>
+<p>פותח אוטומטית את כל האייקונים מה-SVG</p>
+<canvas id='c'></canvas>
+<script>
+const sizes=[72,96,128,144,152,192,384,512];
+const svg=`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><defs><linearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%237c3aed'/><stop offset='100%25' style='stop-color:%232563eb'/></linearGradient><linearGradient id='snow' x1='0%25' y1='0%25' x2='0%25' y2='100%25'><stop offset='0%25' style='stop-color:%23ffffff;stop-opacity:1'/><stop offset='100%25' style='stop-color:%23c4b5fd;stop-opacity:0.8'/></linearGradient></defs><rect width='512' height='512' rx='96' fill='url(%23bg)'/><polygon points='256,60 420,340 92,340' fill='url(%23snow)' opacity='0.95'/><polygon points='256,140 370,320 142,320' fill='%237c3aed' opacity='0.4'/><rect x='210' y='340' width='92' height='80' rx='8' fill='%23c4b5fd' opacity='0.6'/><text x='256' y='430' font-family='Arial' font-size='64' font-weight='900' text-anchor='middle' fill='%23fde68a'>%25</text></svg>`;
+const img=new Image();
+img.onload=()=>{
+  sizes.forEach(s=>{
+    const c=document.getElementById('c');
+    c.width=s;c.height=s;
+    c.getContext('2d').drawImage(img,0,0,s,s);
+    const a=document.createElement('a');
+    a.download=`icon-${s}.png`;
+    a.href=c.toDataURL('image/png');
+    a.textContent=`הורד ${s}x${s}`;
+    a.style='display:block;margin:8px;font-size:18px';
+    document.body.appendChild(a);
+  });
+};
+img.src='data:image/svg+xml;charset=utf-8,'+svg;
+</script></body></html>
