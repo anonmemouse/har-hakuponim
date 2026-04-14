@@ -18,8 +18,46 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .btn.demo {
+      background: linear-gradient(135deg, rgba(52,211,153,0.2), rgba(16,185,129,0.15));
+      border: 1px solid rgba(52,211,153,0.4);
+      color: #6ee7b7;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn.demo:hover {
+      background: linear-gradient(135deg, rgba(52,211,153,0.35), rgba(16,185,129,0.28));
+      border-color: rgba(52,211,153,0.7);
+      transform: translateY(-1px);
+      box-shadow: 0 0 18px rgba(52,211,153,0.25);
+    }
+    .btn.demo .demo-pulse {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #34d399;
+      margin-left: 6px;
+      animation: pulse 1.6s ease-in-out infinite;
+      vertical-align: middle;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:0.4; transform:scale(1.5); }
+    }
+    #demoLoadingBar {
+      display:none;
+      position:fixed;top:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,#7c3aed,#34d399,#60a5fa);
+      background-size:200% 100%;
+      animation:shimmer 1s linear infinite;
+      z-index:9999;
+    }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+  </style>
 </head>
 <body>
+<div id="demoLoadingBar"></div>
 <div id="app">
 
   <!-- HERO -->
@@ -31,6 +69,9 @@
     <div class="topbar">
       <input type="file" id="fileInput" accept=".html,.xml,.csv" style="display:none">
       <button class="btn primary" id="loadBtn">📁 טען קובץ</button>
+      <button class="btn demo" id="demoBtn">
+        <span class="demo-pulse"></span>טען קובץ דוגמה
+      </button>
       <button class="btn ghost" id="exportBtn" style="display:none">⬇ ייצוא CSV</button>
       <button class="btn ghost" id="guideToggle">📖 הוראות ייצוא</button>
       <button class="btn ghost" id="installBtn" style="display:none">📲 התקן אפליקציה</button>
@@ -43,7 +84,6 @@
       <button class="guide-tab active" data-tab="android">🤖 Android</button>
       <button class="guide-tab" data-tab="ios">🍎 iPhone (iOS)</button>
     </div>
-
     <div class="guide-content active" id="tab-android">
       <div class="guide-step"><div class="guide-num">1</div><div class="guide-text">הורד את האפליקציה <strong>SMS Backup &amp; Restore</strong> מ-Google Play<br><span class="app-badge">SMS Backup & Restore — Carbonite</span></div></div>
       <div class="guide-step"><div class="guide-num">2</div><div class="guide-text">פתח את האפליקציה ← לחץ על <strong>"גיבוי"</strong> (Backup Now)<br>סמן רק SMS (לא שיחות) ← לחץ <strong>Back Up Now</strong></div></div>
@@ -51,7 +91,6 @@
       <div class="guide-step"><div class="guide-num">4</div><div class="guide-text">העבר את הקובץ למחשב דרך USB / Google Drive / WhatsApp לעצמך</div></div>
       <div class="guide-step"><div class="guide-num">5</div><div class="guide-text">לחץ <strong>"טען קובץ"</strong> כאן ← בחר את הקובץ ← הרה הקופונים מחפש הכל 🎉</div></div>
     </div>
-
     <div class="guide-content" id="tab-ios">
       <div class="guide-step"><div class="guide-num">1</div><div class="guide-text">ב-iPhone אין גיבוי SMS ישיר. הדרך הקלה: <strong>iMazing</strong><br><span class="app-badge">iMazing — חינמי ל-Export</span> מורידים ל-Mac / Windows</div></div>
       <div class="guide-step"><div class="guide-num">2</div><div class="guide-text">חבר iPhone למחשב ← פתח iMazing ← בחר <strong>Messages</strong> ← <strong>Export to CSV</strong></div></div>
@@ -67,7 +106,7 @@
     <p id="progressText" class="hint" style="text-align:center;margin-top:8px">מעבד...</p>
   </div>
 
-  <!-- STATS (clickable quick filters) -->
+  <!-- STATS -->
   <div id="statsGrid" class="stats-grid" style="display:none"></div>
 
   <!-- CHARTS -->
@@ -147,6 +186,32 @@
     $('#tab-'+tab).addClass('active');
   });
   $('#guideToggle').click(() => $('#guidePanel').slideToggle(200));
+
+  // ── DEMO LOADER ──
+  $('#demoBtn').click(function() {
+    const btn = $(this);
+    btn.prop('disabled', true).text('⏳ טוען...');
+    $('#demoLoadingBar').show();
+
+    fetch('demo.xml')
+      .then(r => {
+        if (!r.ok) throw new Error('לא נמצא demo.xml (status ' + r.status + ')');
+        return r.text();
+      })
+      .then(xml => {
+        $('#demoLoadingBar').hide();
+        btn.prop('disabled', false).html('<span class="demo-pulse"></span>טען קובץ דוגמה');
+        // Reuse the existing XML parser via a synthetic File-like object
+        const blob = new Blob([xml], { type: 'application/xml' });
+        const file = new File([blob], 'demo.xml', { type: 'application/xml' });
+        loadFile(file);
+      })
+      .catch(err => {
+        $('#demoLoadingBar').hide();
+        btn.prop('disabled', false).html('<span class="demo-pulse"></span>טען קובץ דוגמה');
+        alert('שגיאה בטעינת הדמו: ' + err.message);
+      });
+  });
 
   // PWA SW
   if ('serviceWorker' in navigator) {
