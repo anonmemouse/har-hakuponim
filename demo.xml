@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<smses count="20">
+
+  <sms protocol="0" address="BUYME" date="1712000000000" type="1"
+    body="שלום! קיבלת כרטיס מתנה BuyMe בשווי 250₪ מאת דנה. קוד המימוש: 1234-5678-9012-3456. לכניסה לאתר: https://buyme.co.il. תוקף עד 31/12/2026"
+    contact_name="BuyMe" readable_date="Apr 01, 2026" />
+
+  <sms protocol="0" address="PowerCard" date="1711900000000" type="1"
+    body="כרטיס מתנה PowerCard הופעל בהצלחה. מספר כרטיס: 9876543210123456. יתרה: 150₪. תוקף: 30/06/2026. לבדיקת יתרה: powercard.co.il"
+    contact_name="PowerCard" readable_date="Mar 31, 2026" />
+
+  <sms protocol="0" address="BuyMe" date="1711800000000" type="1"
+    body="קיבלת שובר מתנה מאת יוסי! שובר BuyMe בשווי 100₪. קוד: 4321-8765-2109-6543. תוקף עד 01/03/2027."
+    contact_name="BuyMe" readable_date="Mar 30, 2026" />
+
+  <sms protocol="0" address="HOT" date="1711700000000" type="1"
+    body="מועדון HOT - קופון הטבה עבורך! קוד קופון: HOTWIN2026. קבל 50₪ הנחה על חבילת הכבלים הבאה. בתוקף עד 30/09/2026."
+    contact_name="מועדון הוט" readable_date="Mar 29, 2026" />
+
+  <sms protocol="0" address="TerminalX" date="1711600000000" type="1"
+    body="Terminal X: קוד קופון בלעדי עבורך TXVIP150 לקבלת 15% הנחה על כל הקנייה. בתוקף עד 15/05/2026. לא כולל מבצעים."
+    contact_name="Terminal X" readable_date="Mar 28, 2026" />
+
+  <sms protocol="0" address="Castro" date="1711500000000" type="1"
+    body="Castro: קיבלת שובר יום הולדת! 🎂 קוד: BDAY200 לקבלת 200₪ הנחה בקנייה מעל 500₪. בתוקף עד 30/04/2026."
+    contact_name="Castro" readable_date="Mar 27, 2026" />
+
+  <sms protocol="0" address="KSP" date="1711400000000" type="1"
+    body="KSP מחשבים: שובר הנחה קוד KSPSAVE300. חסוך 300₪ בקנייה מעל 2000₪. תוקף עד 31/07/2026. פרטים בksp.co.il"
+    contact_name="KSP" readable_date="Mar 26, 2026" />
+
+  <sms protocol="0" address="BUYME" date="1711300000000" type="1"
+    body="שובר מתנה BuyMe נוסף! קוד: 1111-2222-3333-4444. שווי: 75₪. שלחה: אמא 💕. תוקף: 31/12/2026."
+    contact_name="BuyMe" readable_date="Mar 25, 2026" />
+
+  <sms protocol="0" address="HTzone" date="1711200000000" type="1"
+    body="HTzone PRO: הטבת מנוי פעילה. קוד: HTPRO2026. 10% הנחה על כל הרכישות. תוקף עד 01/01/2027. לפרטים htzone.co.il"
+    contact_name="HTzone" readable_date="Mar 24, 2026" />
+
+  <sms protocol="0" address="Renuar" date="1711100000000" type="1"
+    body="Renuar: שובר 150₪ מחכה לך! קוד RNRVIP26. בתוקף עד 31/05/2026 בכל סניפי רנואר. לא ניתן להמרה במזומן."
+    contact_name="Renuar" readable_date="Mar 23, 2026" />
+
+  <sms protocol="0" address="FOX" date="1711000000000" type="1"
+    body="FOX Fashion: קיבלת גיפטקארד בשווי 180₪. קוד: FOX-GIFT-9988-7766. תוקף עד 30/06/2026. ניתן לשימוש בחנות ובאתר."
+    contact_name="FOX" readable_date="Mar 22, 2026" />
+
+  <sms protocol="0" address="AROMA" date="1710900000000" type="1"
+    body="ארומה ישראל: כוס קפה חינם! הצג קוד AROMACAFE בכל סניפי ארומה. בתוקף עד 30/04/2026."
+    contact_name="ארומה" readable_date="Mar 21, 2026" />
+
+  <sms protocol="0" address="MAX" date="1710800000000" type="1"
+    body="MAX מועדון לקוחות: צברת 500 נקודות. שוות 50₪ לשימוש בקנייה הבאה. קוד מימוש: MAXPTS500. תוקף עד 31/08/2026."
+    contact_name="MAX" readable_date="Mar 20, 2026" />
+
+  <sms protocol="0" address="BUYME" date="1700000000000" type="1"
+    body="שובר BuyMe פג תוקף לא מומש. קוד: 9999-8888-7777-6666. שווי 300₪. תוקף היה עד 01/01/2025. לפרטים פנה לתמיכה."
+    contact_name="BuyMe" readable_date="Nov 15, 2023" />
+
+  <sms protocol="0" address="DreamCard" date="1710700000000" type="1"
+    body="Dream Card: כרטיס מתנה הופעל. מספר: 5544332211009988. יתרה: 500₪. תוקף עד 31/03/2027. לבדיקת יתרה: dreamcard.co.il"
+    contact_name="Dream Card" readable_date="Mar 19, 2026" />
+
+  <sms protocol="0" address="TavHazahav" date="1710600000000" type="1"
+    body="תו הזהב: שובר קניות בשווי 250₪. קוד: GOLD2026ABC. ניתן לשימוש בכל בתי העסק המשתתפים. תוקף עד 31/12/2026."
+    contact_name="תו הזהב" readable_date="Mar 18, 2026" />
+
+  <sms protocol="0" address="HM" date="1710500000000" type="1"
+    body="H&M: Birthday voucher 100₪! Code: HMBIRTHDAY100. Valid until 30/06/2026. Use online or in store. Terms apply."
+    contact_name="H&M" readable_date="Mar 17, 2026" />
+
+  <sms protocol="0" address="ACE" date="1710400000000" type="1"
+    body="ACE כלי עבודה: קופון הנחה ACESAVE10 לקבלת 10% הנחה על כל הקנייה. מינימום קנייה 200₪. תוקף עד 30/06/2026."
+    contact_name="ACE" readable_date="Mar 16, 2026" />
+
+  <sms protocol="0" address="Shufersal" date="1710300000000" type="1"
+    body="שופרסל: קיבלת שובר הנחה של 80₪ לקנייה הבאה! קוד: SHUF80CLUB. בתוקף עד 30/04/2026. לא בשבת ומועדים."
+    contact_name="שופרסל" readable_date="Mar 15, 2026" />
+
+  <sms protocol="0" address="CoffeeGang" date="1710200000000" type="1"
+    body="קפה גרג: הטבת מנוי - קבל 20% הנחה על כל ההזמנות הבאות. קוד: GANG20OFF. תוקף עד 31/12/2026. פרטים: coffeegang.co.il"
+    contact_name="קפה גרג" readable_date="Mar 14, 2026" />
+
+</smses>
