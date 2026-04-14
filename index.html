@@ -2,8 +2,27 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#7c3aed">
+  <meta name="description" content="מאתר קודי שובר, כרטיסי מתנה וקופונים מתוך SMS backup">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="הר הקופונים">
+
   <title>🏔️ הר הקופונים</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144.png">
+
+  <!-- Favicon SVG -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>">
+
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -22,7 +41,19 @@
       <input type="file" id="fileInput" accept=".html,.xml,.csv">
       <button class="btn primary" id="loadBtn">📁 טען קובץ</button>
       <button class="btn ghost" id="exportBtn" style="display:none">⬇ ייצוא CSV</button>
+      <button class="btn ghost" id="installBtn" style="display:none">📲 התקן אפליקציה</button>
     </div>
+  </div>
+
+  <!-- INSTALL BANNER -->
+  <div id="installBanner" class="glass" style="display:none;padding:16px 20px;margin-bottom:16px;align-items:center;gap:16px;flex-wrap:wrap;">
+    <span style="font-size:28px">📲</span>
+    <div style="flex:1">
+      <div style="font-weight:700;font-size:15px">התקן כאפליקציה</div>
+      <div class="hint">גישה מהירה מהמסך הראשי, עובד גם אופליין</div>
+    </div>
+    <button class="btn primary" id="installBannerBtn">התקן עכשיו</button>
+    <button class="btn ghost" id="dismissBanner" style="padding:8px 12px;font-size:12px">✕</button>
   </div>
 
   <!-- PROGRESS -->
@@ -95,11 +126,55 @@
 </div>
 
 <!-- UNDO BAR -->
-<div id="undoBar" style="display:none;position:fixed;bottom:24px;left:24px;padding:16px 20px;border-radius:16px;background:rgba(15,23,42,0.95);border:1px solid rgba(139,92,246,0.4);box-shadow:0 12px 40px rgba(0,0,0,0.5);display:none;align-items:center;gap:12px;z-index:999;">
+<div id="undoBar" style="display:none;position:fixed;bottom:24px;left:24px;padding:16px 20px;border-radius:16px;background:rgba(15,23,42,0.95);border:1px solid rgba(139,92,246,0.4);box-shadow:0 12px 40px rgba(0,0,0,0.5);align-items:center;gap:12px;z-index:999;">
   <span id="undoText" style="color:#e2e8f0"></span>
   <button class="btn primary" id="undoActionBtn" style="padding:6px 14px;font-size:13px;">↩ בטל</button>
 </div>
 
 <script src="app.js"></script>
+<script>
+  // PWA Service Worker Registration
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/har-hakuponim/sw.js')
+        .then(reg => console.log('✅ SW registered:', reg.scope))
+        .catch(err => console.warn('SW error:', err));
+    });
+  }
+
+  // PWA Install Prompt
+  let deferredPrompt = null;
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('installBtn').style.display = 'inline-block';
+    const banner = document.getElementById('installBanner');
+    if (!localStorage.getItem('pwa-dismissed')) {
+      banner.style.display = 'flex';
+    }
+  });
+
+  async function triggerInstall() {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    document.getElementById('installBtn').style.display = 'none';
+    document.getElementById('installBanner').style.display = 'none';
+  }
+
+  document.getElementById('installBtn').addEventListener('click', triggerInstall);
+  document.getElementById('installBannerBtn').addEventListener('click', triggerInstall);
+  document.getElementById('dismissBanner').addEventListener('click', () => {
+    document.getElementById('installBanner').style.display = 'none';
+    localStorage.setItem('pwa-dismissed', '1');
+  });
+
+  window.addEventListener('appinstalled', () => {
+    document.getElementById('installBtn').style.display = 'none';
+    document.getElementById('installBanner').style.display = 'none';
+    console.log('✅ PWA installed!');
+  });
+</script>
 </body>
 </html>
